@@ -438,7 +438,7 @@ namespace UserInterface.ViewModel
         {
             try
             {
-                return SelectedOrder != null && SelectedOrder.Status <= EnumWMSOrderStatus.Active && !EditEnabled && AccessLevel/10 >= 2;
+                return SelectedOrder != null && SelectedOrder.Status <= EnumWMSOrderStatus.Active && !EditEnabled && AccessLevel/10 >= 1;
             }
             catch (Exception e)
             {
@@ -466,7 +466,7 @@ namespace UserInterface.ViewModel
         {
             try
             {
-                return SelectedSubOrder != null && SelectedSubOrder.Status <= EnumWMSOrderStatus.Active && !EditEnabled && AccessLevel / 10 >= 2;
+                return SelectedSubOrder != null && SelectedSubOrder.Status <= EnumWMSOrderStatus.Active && !EditEnabled && AccessLevel / 10 >= 1;
             }
             catch (Exception e)
             {
@@ -496,7 +496,7 @@ namespace UserInterface.ViewModel
         {
             try
             {
-                return SelectedCommand != null && SelectedCommand.Status < EnumCommandWMSStatus.Canceled && !EditEnabled && AccessLevel/10 >= 2;
+                return SelectedCommand != null && SelectedCommand.Status < EnumCommandWMSStatus.Canceled && !EditEnabled && AccessLevel/10 >= 1;
             }
             catch (Exception e)
             {
