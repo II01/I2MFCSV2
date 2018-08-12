@@ -47,6 +47,43 @@
           <Property Name="Text" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="Time" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="HistCommand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="WMS_ID" Type="int" Nullable="false" />
+          <Property Name="Task" Type="int" Nullable="false" />
+          <Property Name="Material" Type="int" />
+          <Property Name="Source" Type="nvarchar" MaxLength="20" />
+          <Property Name="Target" Type="nvarchar" MaxLength="20" />
+          <Property Name="Segment" Type="nvarchar" MaxLength="20" />
+          <Property Name="CommandID" Type="int" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Info" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Reason" Type="int" />
+          <Property Name="Discrimator" Type="nvarchar" MaxLength="50" />
+          <Property Name="Time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="HistSimpleCommand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Command_ID" Type="int" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="20" />
+          <Property Name="Material" Type="int" />
+          <Property Name="Source" Type="nvarchar" MaxLength="20" />
+          <Property Name="Target" Type="nvarchar" MaxLength="20" />
+          <Property Name="Task" Type="int" Nullable="false" />
+          <Property Name="Segment" Type="nvarchar" MaxLength="20" />
+          <Property Name="CancelID" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Reason" Type="int" />
+          <Property Name="Discrimator" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="MaterialID">
           <Key>
             <PropertyRef Name="ID" />
@@ -108,7 +145,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="AccessLevel" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Command__Materia__60A75C0F">
+        <Association Name="FK__Command__Materia__403A8C7D">
           <End Role="MaterialID" Type="Self.MaterialID" Multiplicity="0..1" />
           <End Role="Command" Type="Self.Command" Multiplicity="*" />
           <ReferentialConstraint>
@@ -120,7 +157,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Command__Source__619B8048">
+        <Association Name="FK__Command__Source__412EB0B6">
           <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
           <End Role="Command" Type="Self.Command" Multiplicity="*" />
           <ReferentialConstraint>
@@ -132,7 +169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Command__Target__628FA481">
+        <Association Name="FK__Command__Target__4222D4EF">
           <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
           <End Role="Command" Type="Self.Command" Multiplicity="*" />
           <ReferentialConstraint>
@@ -144,7 +181,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SimpleCom__Comma__6754599E">
+        <Association Name="FK__HistComma__Mater__71D1E811">
+          <End Role="MaterialID" Type="Self.MaterialID" Multiplicity="0..1" />
+          <End Role="HistCommand" Type="Self.HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistComma__Sourc__72C60C4A">
+          <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
+          <End Role="HistCommand" Type="Self.HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistComma__Targe__73BA3083">
+          <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
+          <End Role="HistCommand" Type="Self.HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Target" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Comma__787EE5A0">
+          <End Role="HistCommand" Type="Self.HistCommand" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistSimpleCommand" Type="Self.HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HistCommand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Command_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Mater__797309D9">
+          <End Role="MaterialID" Type="Self.MaterialID" Multiplicity="0..1" />
+          <End Role="HistSimpleCommand" Type="Self.HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Sourc__7A672E12">
+          <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
+          <End Role="HistSimpleCommand" Type="Self.HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Targe__7B5B524B">
+          <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
+          <End Role="HistSimpleCommand" Type="Self.HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Target" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SimpleCom__Comma__46E78A0C">
           <End Role="Command" Type="Self.Command" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -158,7 +281,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SimpleCom__Mater__68487DD7">
+        <Association Name="FK__SimpleCom__Mater__47DBAE45">
           <End Role="MaterialID" Type="Self.MaterialID" Multiplicity="0..1" />
           <End Role="SimpleCommand" Type="Self.SimpleCommand" Multiplicity="*" />
           <ReferentialConstraint>
@@ -170,7 +293,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SimpleCom__Sourc__693CA210">
+        <Association Name="FK__SimpleCom__Sourc__48CFD27E">
           <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
           <End Role="SimpleCommand" Type="Self.SimpleCommand" Multiplicity="*" />
           <ReferentialConstraint>
@@ -182,7 +305,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SimpleCom__Targe__6A30C649">
+        <Association Name="FK__SimpleCom__Targe__49C3F6B7">
           <End Role="PlaceID" Type="Self.PlaceID" Multiplicity="0..1" />
           <End Role="SimpleCommand" Type="Self.SimpleCommand" Multiplicity="*" />
           <ReferentialConstraint>
@@ -234,37 +357,67 @@
           <EntitySet Name="Alarm" EntityType="Self.Alarm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Command" EntityType="Self.Command" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistCommand" EntityType="Self.HistCommand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistSimpleCommand" EntityType="Self.HistSimpleCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaterialID" EntityType="Self.MaterialID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movement" EntityType="Self.Movement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Place" EntityType="Self.Place" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlaceID" EntityType="Self.PlaceID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SimpleCommand" EntityType="Self.SimpleCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Command__Materia__60A75C0F" Association="Self.FK__Command__Materia__60A75C0F">
+          <AssociationSet Name="FK__Command__Materia__403A8C7D" Association="Self.FK__Command__Materia__403A8C7D">
             <End Role="MaterialID" EntitySet="MaterialID" />
             <End Role="Command" EntitySet="Command" />
           </AssociationSet>
-          <AssociationSet Name="FK__Command__Source__619B8048" Association="Self.FK__Command__Source__619B8048">
+          <AssociationSet Name="FK__Command__Source__412EB0B6" Association="Self.FK__Command__Source__412EB0B6">
             <End Role="PlaceID" EntitySet="PlaceID" />
             <End Role="Command" EntitySet="Command" />
           </AssociationSet>
-          <AssociationSet Name="FK__Command__Target__628FA481" Association="Self.FK__Command__Target__628FA481">
+          <AssociationSet Name="FK__Command__Target__4222D4EF" Association="Self.FK__Command__Target__4222D4EF">
             <End Role="PlaceID" EntitySet="PlaceID" />
             <End Role="Command" EntitySet="Command" />
           </AssociationSet>
-          <AssociationSet Name="FK__SimpleCom__Comma__6754599E" Association="Self.FK__SimpleCom__Comma__6754599E">
+          <AssociationSet Name="FK__HistComma__Mater__71D1E811" Association="Self.FK__HistComma__Mater__71D1E811">
+            <End Role="MaterialID" EntitySet="MaterialID" />
+            <End Role="HistCommand" EntitySet="HistCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistComma__Sourc__72C60C4A" Association="Self.FK__HistComma__Sourc__72C60C4A">
+            <End Role="PlaceID" EntitySet="PlaceID" />
+            <End Role="HistCommand" EntitySet="HistCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistComma__Targe__73BA3083" Association="Self.FK__HistComma__Targe__73BA3083">
+            <End Role="PlaceID" EntitySet="PlaceID" />
+            <End Role="HistCommand" EntitySet="HistCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Comma__787EE5A0" Association="Self.FK__HistSimpl__Comma__787EE5A0">
+            <End Role="HistCommand" EntitySet="HistCommand" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Mater__797309D9" Association="Self.FK__HistSimpl__Mater__797309D9">
+            <End Role="MaterialID" EntitySet="MaterialID" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Sourc__7A672E12" Association="Self.FK__HistSimpl__Sourc__7A672E12">
+            <End Role="PlaceID" EntitySet="PlaceID" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Targe__7B5B524B" Association="Self.FK__HistSimpl__Targe__7B5B524B">
+            <End Role="PlaceID" EntitySet="PlaceID" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SimpleCom__Comma__46E78A0C" Association="Self.FK__SimpleCom__Comma__46E78A0C">
             <End Role="Command" EntitySet="Command" />
             <End Role="SimpleCommand" EntitySet="SimpleCommand" />
           </AssociationSet>
-          <AssociationSet Name="FK__SimpleCom__Mater__68487DD7" Association="Self.FK__SimpleCom__Mater__68487DD7">
+          <AssociationSet Name="FK__SimpleCom__Mater__47DBAE45" Association="Self.FK__SimpleCom__Mater__47DBAE45">
             <End Role="MaterialID" EntitySet="MaterialID" />
             <End Role="SimpleCommand" EntitySet="SimpleCommand" />
           </AssociationSet>
-          <AssociationSet Name="FK__SimpleCom__Sourc__693CA210" Association="Self.FK__SimpleCom__Sourc__693CA210">
+          <AssociationSet Name="FK__SimpleCom__Sourc__48CFD27E" Association="Self.FK__SimpleCom__Sourc__48CFD27E">
             <End Role="PlaceID" EntitySet="PlaceID" />
             <End Role="SimpleCommand" EntitySet="SimpleCommand" />
           </AssociationSet>
-          <AssociationSet Name="FK__SimpleCom__Targe__6A30C649" Association="Self.FK__SimpleCom__Targe__6A30C649">
+          <AssociationSet Name="FK__SimpleCom__Targe__49C3F6B7" Association="Self.FK__SimpleCom__Targe__49C3F6B7">
             <End Role="PlaceID" EntitySet="PlaceID" />
             <End Role="SimpleCommand" EntitySet="SimpleCommand" />
           </AssociationSet>
@@ -338,6 +491,36 @@
             <End Role="PlaceID" EntitySet="PlaceIDs" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="MFCSModel.User" />
+          <EntitySet Name="HistCommands" EntityType="MFCSModel.HistCommand" />
+          <EntitySet Name="HistSimpleCommands" EntityType="MFCSModel.HistSimpleCommand" />
+          <AssociationSet Name="FK__HistComma__Mater__71D1E811" Association="MFCSModel.FK__HistComma__Mater__71D1E811">
+            <End Role="MaterialID" EntitySet="MaterialIDs" />
+            <End Role="HistCommand" EntitySet="HistCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistComma__Sourc__72C60C4A" Association="MFCSModel.FK__HistComma__Sourc__72C60C4A">
+            <End Role="PlaceID" EntitySet="PlaceIDs" />
+            <End Role="HistCommand" EntitySet="HistCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistComma__Targe__73BA3083" Association="MFCSModel.FK__HistComma__Targe__73BA3083">
+            <End Role="PlaceID" EntitySet="PlaceIDs" />
+            <End Role="HistCommand" EntitySet="HistCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Comma__787EE5A0" Association="MFCSModel.FK__HistSimpl__Comma__787EE5A0">
+            <End Role="HistCommand" EntitySet="HistCommands" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Mater__797309D9" Association="MFCSModel.FK__HistSimpl__Mater__797309D9">
+            <End Role="MaterialID" EntitySet="MaterialIDs" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Sourc__7A672E12" Association="MFCSModel.FK__HistSimpl__Sourc__7A672E12">
+            <End Role="PlaceID" EntitySet="PlaceIDs" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HistSimpl__Targe__7B5B524B" Association="MFCSModel.FK__HistSimpl__Targe__7B5B524B">
+            <End Role="PlaceID" EntitySet="PlaceIDs" />
+            <End Role="HistSimpleCommand" EntitySet="HistSimpleCommands" />
+          </AssociationSet>
           </EntityContainer>
         <EnumType Name="EnumCommandStatus" a:ExternalTypeName="Command.EnumCommandStatus" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
           </EnumType>
@@ -366,6 +549,8 @@
           <NavigationProperty Name="SimpleCommands" Relationship="MFCSModel.FK__SimpleCom__Mater__68D28DBC" FromRole="MaterialID" ToRole="SimpleCommand" />
           <NavigationProperty Name="Movements" Relationship="MFCSModel.FK_Material_MaterialID" FromRole="MaterialID" ToRole="Movement" />
           <NavigationProperty Name="CommandMaterials" Relationship="MFCSModel.CommandMaterialMaterialID" FromRole="MaterialID" ToRole="CommandMaterial" />
+          <NavigationProperty Name="HistCommands" Relationship="MFCSModel.FK__HistComma__Mater__71D1E811" FromRole="MaterialID" ToRole="HistCommand" />
+          <NavigationProperty Name="HistSimpleCommands" Relationship="MFCSModel.FK__HistSimpl__Mater__797309D9" FromRole="MaterialID" ToRole="HistSimpleCommand" />
         </EntityType>
         <EntityType Name="Movement">
           <Key>
@@ -401,6 +586,10 @@
           <NavigationProperty Name="CommandMaterials" Relationship="MFCSModel.CommandMaterialPlaceIDS" FromRole="PlaceID" ToRole="CommandMaterial" />
           <NavigationProperty Name="CommandMaterialsT" Relationship="MFCSModel.CommandMaterialPlaceID" FromRole="PlaceID" ToRole="CommandMaterial" />
           <NavigationProperty Name="SimpleConveyorCommands" Relationship="MFCSModel.SimpleConveyorCommandPlaceID" FromRole="PlaceID" ToRole="SimpleConveyorCommand" />
+          <NavigationProperty Name="HistCommands" Relationship="MFCSModel.FK__HistComma__Sourc__72C60C4A" FromRole="PlaceID" ToRole="HistCommand" />
+          <NavigationProperty Name="HistCommands1" Relationship="MFCSModel.FK__HistComma__Targe__73BA3083" FromRole="PlaceID" ToRole="HistCommand" />
+          <NavigationProperty Name="HistSimpleCommands" Relationship="MFCSModel.FK__HistSimpl__Sourc__7A672E12" FromRole="PlaceID" ToRole="HistSimpleCommand" />
+          <NavigationProperty Name="HistSimpleCommands1" Relationship="MFCSModel.FK__HistSimpl__Targe__7B5B524B" FromRole="PlaceID" ToRole="HistSimpleCommand" />
         </EntityType>
         <Association Name="FK_material_MatetrialID">
           <End Type="MFCSModel.MaterialID" Role="MaterialID" Multiplicity="1" />
@@ -638,6 +827,137 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccessLevel" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="HistCommand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="WMS_ID" Type="Int32" Nullable="false" />
+          <Property Name="Task" Type="Int32" Nullable="false" />
+          <Property Name="Material" Type="Int32" />
+          <Property Name="Source" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Target" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Segment" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CommandID" Type="Int32" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="Info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Reason" Type="Int32" />
+          <Property Name="Discrimator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MaterialID" Relationship="MFCSModel.FK__HistComma__Mater__71D1E811" FromRole="HistCommand" ToRole="MaterialID" />
+          <NavigationProperty Name="PlaceID" Relationship="MFCSModel.FK__HistComma__Sourc__72C60C4A" FromRole="HistCommand" ToRole="PlaceID" />
+          <NavigationProperty Name="PlaceID1" Relationship="MFCSModel.FK__HistComma__Targe__73BA3083" FromRole="HistCommand" ToRole="PlaceID" />
+          <NavigationProperty Name="HistSimpleCommands" Relationship="MFCSModel.FK__HistSimpl__Comma__787EE5A0" FromRole="HistCommand" ToRole="HistSimpleCommand" />
+        </EntityType>
+        <EntityType Name="HistSimpleCommand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Command_ID" Type="Int32" />
+          <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Material" Type="Int32" />
+          <Property Name="Source" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Target" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Task" Type="Int32" Nullable="false" />
+          <Property Name="Segment" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CancelID" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Reason" Type="Int32" />
+          <Property Name="Discrimator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="HistCommand" Relationship="MFCSModel.FK__HistSimpl__Comma__787EE5A0" FromRole="HistSimpleCommand" ToRole="HistCommand" />
+          <NavigationProperty Name="MaterialID" Relationship="MFCSModel.FK__HistSimpl__Mater__797309D9" FromRole="HistSimpleCommand" ToRole="MaterialID" />
+          <NavigationProperty Name="PlaceID" Relationship="MFCSModel.FK__HistSimpl__Sourc__7A672E12" FromRole="HistSimpleCommand" ToRole="PlaceID" />
+          <NavigationProperty Name="PlaceID1" Relationship="MFCSModel.FK__HistSimpl__Targe__7B5B524B" FromRole="HistSimpleCommand" ToRole="PlaceID" />
+        </EntityType>
+        <Association Name="FK__HistComma__Mater__71D1E811">
+          <End Type="MFCSModel.MaterialID" Role="MaterialID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistCommand" Role="HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistComma__Sourc__72C60C4A">
+          <End Type="MFCSModel.PlaceID" Role="PlaceID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistCommand" Role="HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistComma__Targe__73BA3083">
+          <End Type="MFCSModel.PlaceID" Role="PlaceID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistCommand" Role="HistCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistCommand">
+              <PropertyRef Name="Target" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Comma__787EE5A0">
+          <End Type="MFCSModel.HistCommand" Role="HistCommand" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MFCSModel.HistSimpleCommand" Role="HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HistCommand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Command_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Mater__797309D9">
+          <End Type="MFCSModel.MaterialID" Role="MaterialID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistSimpleCommand" Role="HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Sourc__7A672E12">
+          <End Type="MFCSModel.PlaceID" Role="PlaceID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistSimpleCommand" Role="HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HistSimpl__Targe__7B5B524B">
+          <End Type="MFCSModel.PlaceID" Role="PlaceID" Multiplicity="0..1" />
+          <End Type="MFCSModel.HistSimpleCommand" Role="HistSimpleCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceID">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HistSimpleCommand">
+              <PropertyRef Name="Target" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -787,6 +1107,45 @@
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="User1" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistCommands">
+            <EntityTypeMapping TypeName="MFCSModel.HistCommand">
+              <MappingFragment StoreEntitySet="HistCommand">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Discrimator" ColumnName="Discrimator" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="CommandID" ColumnName="CommandID" />
+                <ScalarProperty Name="Segment" ColumnName="Segment" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="WMS_ID" ColumnName="WMS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistSimpleCommands">
+            <EntityTypeMapping TypeName="MFCSModel.HistSimpleCommand">
+              <MappingFragment StoreEntitySet="HistSimpleCommand">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Discrimator" ColumnName="Discrimator" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CancelID" ColumnName="CancelID" />
+                <ScalarProperty Name="Segment" ColumnName="Segment" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Command_ID" ColumnName="Command_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

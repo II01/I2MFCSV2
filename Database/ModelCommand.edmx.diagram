@@ -36,6 +36,15 @@
         <EntityTypeShape EntityType="MFCSModel.CommandCommand" Width="1.5" PointX="9.375" PointY="10" />
         <InheritanceConnector EntityType="MFCSModel.CommandCommand" />
         <EntityTypeShape EntityType="MFCSModel.User" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MFCSModel.HistCommand" Width="1.5" PointX="12.125" PointY="8.5" />
+        <EntityTypeShape EntityType="MFCSModel.HistSimpleCommand" Width="1.5" PointX="15.375" PointY="7.625" />
+        <AssociationConnector Association="MFCSModel.FK__HistComma__Mater__71D1E811" />
+        <AssociationConnector Association="MFCSModel.FK__HistComma__Sourc__72C60C4A" />
+        <AssociationConnector Association="MFCSModel.FK__HistComma__Targe__73BA3083" />
+        <AssociationConnector Association="MFCSModel.FK__HistSimpl__Comma__787EE5A0" />
+        <AssociationConnector Association="MFCSModel.FK__HistSimpl__Mater__797309D9" />
+        <AssociationConnector Association="MFCSModel.FK__HistSimpl__Sourc__7A672E12" />
+        <AssociationConnector Association="MFCSModel.FK__HistSimpl__Targe__7B5B524B" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,6 +20,8 @@ namespace Database
             this.SimpleCommands = new HashSet<SimpleCommand>();
             this.Movements = new HashSet<Movement>();
             this.CommandMaterials = new HashSet<CommandMaterial>();
+            this.HistCommands = new HashSet<HistCommand>();
+            this.HistSimpleCommands = new HashSet<HistSimpleCommand>();
         }
     
         public int ID { get; set; }
@@ -33,5 +35,9 @@ namespace Database
         public virtual ICollection<Movement> Movements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CommandMaterial> CommandMaterials { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistCommand> HistCommands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistSimpleCommand> HistSimpleCommands { get; set; }
     }
 }

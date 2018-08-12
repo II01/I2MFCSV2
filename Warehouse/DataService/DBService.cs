@@ -1327,7 +1327,7 @@ namespace Warehouse.DataService
             }
         }
 
-        public async Task MoveCommamdsToHist(DateTime date)
+        public async Task MoveCommandsToHist(DateTime date)
         {
             try
             {
@@ -1355,6 +1355,7 @@ namespace Warehouse.DataService
                                -- delete standalone simple commands
                                delete dbo.SimpleCommand
                                where Command_ID is null and Time < '{datestr}' and Status >= 2";
+                    dc.Database.CommandTimeout = 300;
                     await dc.Database.ExecuteSqlCommandAsync(querystr);
                 }
             }

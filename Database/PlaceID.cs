@@ -22,6 +22,10 @@ namespace Database
             this.CommandMaterials = new HashSet<CommandMaterial>();
             this.CommandMaterialsT = new HashSet<CommandMaterial>();
             this.SimpleConveyorCommands = new HashSet<SimpleConveyorCommand>();
+            this.HistCommands = new HashSet<HistCommand>();
+            this.HistCommands1 = new HashSet<HistCommand>();
+            this.HistSimpleCommands = new HashSet<HistSimpleCommand>();
+            this.HistSimpleCommands1 = new HashSet<HistSimpleCommand>();
         }
     
         public string ID { get; set; }
@@ -39,5 +43,13 @@ namespace Database
         public virtual ICollection<CommandMaterial> CommandMaterialsT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SimpleConveyorCommand> SimpleConveyorCommands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistCommand> HistCommands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistCommand> HistCommands1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistSimpleCommand> HistSimpleCommands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistSimpleCommand> HistSimpleCommands1 { get; set; }
     }
 }

@@ -105,14 +105,14 @@ namespace Warehouse.Strategy
 
                 // todo: timestamp: delete DB alarm, Log
                 timeStamp = DateTime.Now;
-                if(timeStamp.TimeOfDay > _maintenanceTime && _timeStampOld.TimeOfDay <= _maintenanceTime )
+                if( timeStamp.TimeOfDay > _maintenanceTime && _timeStampOld.TimeOfDay <= _maintenanceTime )
                 {
                     // send time sync
                     Warehouse.SegmentList.ForEach(s => s.SetClock(0));
 
                     // move old commands to history
                     DateTime dt = DateTime.Now.AddDays(-30);
-                    await Warehouse.DBService.MoveCommamdsToHist(dt);
+                    await Warehouse.DBService.MoveCommandsToHist(dt);
                     Warehouse.AddEvent(Event.EnumSeverity.Event, Event.EnumType.Program, $"Copy Commands and SimpleCommands older than {dt.Date} to history tables.");
 
                     // check database size
@@ -243,25 +243,11 @@ namespace Warehouse.Strategy
         {
             try
             {
-                if (CurrentTask != null)
-                    Warehouse.AddEvent(Event.EnumSeverity.Event, Event.EnumType.Program, $"CurrentTask:{CurrentTask.Status}");
-                else
-                    Warehouse.AddEvent(Event.EnumSeverity.Event, Event.EnumType.Program, $"CurrentTask:null");
-
                 if (CurrentTask == null || CurrentTask.IsCompleted || CurrentTask.IsCanceled || CurrentTask.IsFaulted)
                 {
-                    // Warehouse.AddEvent(Event.EnumSeverity.Event, Event.EnumType.Program, $"CurrentTaskStart");
-                    // CurrentTask = StrategyAsync();
-
-                    CurrentTask = Task.Run( async () =>
-                                            {
-                                                Warehouse.AddEvent(Event.EnumSeverity.Event, Event.EnumType.Program, "strategyAsync call");
-                                                await StrategyAsync();
-                                            });
+                    CurrentTask = Task.Run( async () => await StrategyAsync() );
                     CurrentTask.ConfigureAwait(false);
                 }
-//                if (CurrentTask != null && CurrentTask.IsCompleted)
-//                    CurrentTask = null;
             }
             catch (Exception e)
             {

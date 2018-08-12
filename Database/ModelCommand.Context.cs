@@ -36,6 +36,8 @@ namespace Database
         public virtual DbSet<Alarm> Alarms { get; set; }
         public virtual DbSet<SimpleCommand> SimpleCommands { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<HistCommand> HistCommands { get; set; }
+        public virtual DbSet<HistSimpleCommand> HistSimpleCommands { get; set; }
     
         public virtual int SwitchLanguage(Nullable<int> lang)
         {
